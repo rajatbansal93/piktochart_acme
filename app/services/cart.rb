@@ -1,7 +1,8 @@
 class Cart
-  def initialize(catalogue:, shipping_rule:)
+  def initialize(catalogue:, shipping_rule:, discount_rules: [])
     @catalogue = catalogue
     @shipping_rule = shipping_rule
+    @discount_rules = discount_rules
     @items = {}
   end
 
@@ -19,11 +20,15 @@ class Cart
     items.sum(&:subtotal)
   end
 
+  def discounts
+    @discount_rules.sum { |rule| rule.apply(items) }
+  end
+
   def shipping
-    @shipping_rule.calculate(subtotal)
+    @shipping_rule.calculate(subtotal - discounts)
   end
 
   def total
-    (subtotal + shipping).round(2)
+    (subtotal - discounts + shipping).round(2)
   end
 end
