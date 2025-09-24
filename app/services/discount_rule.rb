@@ -1,3 +1,5 @@
+require "bigdecimal"
+
 class DiscountRule
   def apply(items)
     raise NotImplementedError
@@ -14,7 +16,7 @@ class BuyOneGetSecondHalfPrice < DiscountRule
     return 0 unless item
 
     pairs = item.quantity / 2
-    discount_per_pair = item.product.price / 2
-    pairs * discount_per_pair
+    discount_per_pair = item.product.price / BigDecimal("2")
+    BigDecimal(eligible_pairs.to_s) * discount_per_pair
   end
 end

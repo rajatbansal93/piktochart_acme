@@ -1,3 +1,5 @@
+require "bigdecimal"
+
 class CartItem
   attr_reader :product, :quantity
 
@@ -11,6 +13,6 @@ class CartItem
   end
 
   def subtotal
-    product.price * quantity
+    product.price * BigDecimal(quantity.to_s)
   end
 end

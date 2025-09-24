@@ -1,3 +1,5 @@
+require "bigdecimal"
+
 class Cart
   def initialize(catalogue:, shipping_rule:, discount_rules: [])
     @catalogue = catalogue
@@ -17,11 +19,11 @@ class Cart
   end
 
   def subtotal
-    items.sum(&:subtotal)
+    items.map(&:subtotal).reduce(BigDecimal("0"), :+)
   end
 
   def discounts
-    @discount_rules.sum { |rule| rule.apply(items) }
+    @discount_rules.map { |rule| rule.apply(items) }.reduce(BigDecimal("0"), :+)
   end
 
   def shipping
@@ -29,6 +31,6 @@ class Cart
   end
 
   def total
-    (subtotal - discounts + shipping).round(2)
+    (subtotal - discounts + shipping).truncate(2)
   end
 end
