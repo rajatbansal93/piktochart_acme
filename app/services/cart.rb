@@ -1,6 +1,7 @@
 class Cart
-  def initialize(catalogue:)
+  def initialize(catalogue:, shipping_rule:)
     @catalogue = catalogue
+    @shipping_rule = shipping_rule
     @items = {}
   end
 
@@ -18,7 +19,11 @@ class Cart
     items.sum(&:subtotal)
   end
 
+  def shipping
+    @shipping_rule.calculate(subtotal)
+  end
+
   def total
-    subtotal
+    (subtotal + shipping).round(2)
   end
 end
