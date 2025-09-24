@@ -1,4 +1,5 @@
 require "bigdecimal"
+require_relative '../models/cart_item'
 
 class Cart
   def initialize(catalogue:, shipping_rule:, discount_rules: [], currency_converter: nil, currency: "USD")

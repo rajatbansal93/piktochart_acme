@@ -15,7 +15,7 @@ class BuyOneGetSecondHalfPrice < DiscountRule
     item = items.find { |i| i.product.sku == @sku }
     return 0 unless item
 
-    pairs = item.quantity / 2
+    eligible_pairs = item.quantity / 2
     discount_per_pair = item.product.price / BigDecimal("2")
     BigDecimal(eligible_pairs.to_s) * discount_per_pair
   end

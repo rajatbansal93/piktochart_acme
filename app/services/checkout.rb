@@ -7,7 +7,7 @@ class Checkout
     @cart.add(sku, qty)
   end
 
-  def total
-    @cart.total
+  def total(currency: nil)
+    currency ? @cart.total_in_currency(currency) : @cart.total
   end
 end
