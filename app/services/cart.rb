@@ -1,10 +1,12 @@
 require "bigdecimal"
 
 class Cart
-  def initialize(catalogue:, shipping_rule:, discount_rules: [])
+  def initialize(catalogue:, shipping_rule:, discount_rules: [], currency_converter: nil, currency: "USD")
     @catalogue = catalogue
     @shipping_rule = shipping_rule
     @discount_rules = discount_rules
+    @currency_converter = currency_converter
+    @currency = currency
     @items = {}
   end
 
@@ -32,5 +34,10 @@ class Cart
 
   def total
     (subtotal - discounts + shipping).truncate(2)
+  end
+
+  def total_in_currency(target_currency)
+    return total if target_currency == @currency
+    @currency_converter.convert(total, from: @currency, to: target_currency)
   end
 end
