@@ -13,8 +13,11 @@ class Cart
 
   def add(sku, qty = 1)
     product = @catalogue.find(sku)
-    @items[sku] ||= CartItem.new(product)
-    @items[sku].increment(qty)
+    if @items[sku]
+      @items[sku].increment(qty)
+    else
+      @items[sku] = CartItem.new(product, qty)
+    end
   end
 
   def items

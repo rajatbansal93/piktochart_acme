@@ -4,6 +4,6 @@ class Catalogue
   end
 
   def find(sku)
-    @products.fetch(sku)
+    @products[sku]
   end
 end
